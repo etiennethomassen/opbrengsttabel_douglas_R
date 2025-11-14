@@ -1,0 +1,105 @@
+########################
+# R GENERAL
+########################
+
+#Pycharm
+.idea/
+
+# History files
+.Rhistory
+.Rapp.history
+
+# Session files
+.RData
+.Ruserdata
+
+# Example cache artifacts
+.Rproj.user/
+
+# Compiled code
+*.o
+*.so
+*.dll
+
+########################
+# R PACKAGE BUILDS
+########################
+
+# Package build output
+*.tar.gz
+*.Rcheck/
+
+# roxygen2-generated docs
+# man/*.Rd
+# (Include if you do NOT want to track Rd; otherwise remove)
+
+# vignettes build output
+vignettes/*.html
+vignettes/*.pdf
+vignettes/*.R
+
+########################
+# R MARKDOWN
+########################
+
+# Cache and auxiliary files
+*_cache/
+cache/
+*.utf8.md
+*.knit.md
+*.nb.html
+
+# HTML/PDF outputs if you knit locally
+*.html
+*.pdf
+
+########################
+# LATEX
+########################
+
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+
+# TikZ / standalone builds
+*.pdf_tex
+
+########################
+# EDITORS / OS
+########################
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+########################
+# OTHER COMMON FILES
+########################
+
+# Personal configs
+*.swp
+*.swo
+
+# Local environment variables
+.env
+.env.*
+
+# Quarto
+*.qmd-rendered.*

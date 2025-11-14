@@ -1,0 +1,73 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{float}
+\usepackage[nottoc, notlot, notlof]{tocbibind}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{color}
+\usepackage{soul}
+\usepackage[style=authoryear,sorting=ynt, date=year]{biblatex}
+\addbibresource{bib/library.bib}
+%\usepackage{natbib}
+%\bibliographystyle{agsm}
+%\usepackage{apacite}
+%\usepackage{biblatex}
+\usepackage{enumitem} % control lists margin
+
+%source for setup https://www.youtube.com/watch?v=FcVP3gGUtGI&list=PL1D4EAB31D3EBC449&index=10
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape Thinning}
+\fancyhead[R]{\slshape Etiënne Thomassen}
+\setlength{\headheight}{14pt}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\parindent 0ex
+%\setlength{\parindent}{4em}
+%\setlength{\parskip}{1em}
+\renewcommand{\baselinestretch}{1.5}
+
+\title{QD in Yield Tables}
+\author{Etiënne Thomassen}
+\date{\today}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{1cm}
+%\Large{\textbf{lala}}\\
+%\Large{\textbf{lala}}\\
+\vfill
+\line(1,0){400}\\[1mm]
+\huge{\textbf{Growth and yield of Douglas Fir under QD management}}\\[3mm]
+\large{\textbf{an adaptation of the Dutch yield tables}}\\[1mm]
+\line(1,0){400}\\
+\vfill
+Etiënne Thomassen\\
+\today \\
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+%remove header and footer
+\thispagestyle{empty}
+\clearpage
+
+\setcounter{page}{1}
+
+\include{01_introduction}
+\include{02_model_description}
+\include{03_model_adaptation}
+
+\printbibliography
+\end{document}
