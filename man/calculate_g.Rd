@@ -15,6 +15,7 @@ calculate_g(N, d)
 Basal area in square meters per hectare (numeric)
 }
 \description{
+Formula 103, p110
 This function computes the total basal area (G, in m²/ha) given the number of trees per hectare
 and the average tree diameter at breast height (in cm). The formula used is:
 }

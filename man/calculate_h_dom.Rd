@@ -4,7 +4,7 @@
 \alias{calculate_h_dom}
 \title{Calculate dominant height (h_dom) from top height and stand density}
 \usage{
-calculate_h_dom(h_top, N_at, c24, c53)
+calculate_h_dom(h_top, N_at, c24, c25)
 }
 \arguments{
 \item{h_top}{Top height in meters. Numeric scalar.}
@@ -13,7 +13,7 @@ calculate_h_dom(h_top, N_at, c24, c53)
 
 \item{c24}{Model coefficient c24. Numeric scalar.}
 
-\item{c53}{Model exponent c53. Numeric scalar.}
+\item{c25}{Model exponent c25. Numeric scalar.}
 }
 \value{
 Dominant height \code{h_dom} in meters. Numeric scalar.
@@ -26,16 +26,16 @@ uses a piecewise formula:
 \details{
 \itemize{
 \item If N_at > 250:
-\deqn{h_dom = h_top - c24 * h_top^c53}
+\deqn{h_dom = h_top - c24 * h_top^c25}
 \item If 100 < N_at ≤ 250:
-\deqn{h_dom = ((N_at - 100)/150) * (h_top - c24 * h_top^c53) + ((250 - N_at)/150) * h_top}
+\deqn{h_dom = ((N_at - 100)/150) * (h_top - c24 * h_top^c25) + ((250 - N_at)/150) * h_top}
 \item If N_at ≤ 100:
 \deqn{h_dom = h_top}
 }
 }
 \examples{
-calculate_h_dom(h_top = 30, N_at = 300, c24 = 0.5, c53 = 1.2)
-calculate_h_dom(h_top = 30, N_at = 180, c24 = 0.5, c53 = 1.2)
-calculate_h_dom(h_top = 30, N_at = 80, c24 = 0.5, c53 = 1.2)
+calculate_h_dom(h_top = 30, N_at = 300, c24 = 0.5, c25 = 1.2)
+calculate_h_dom(h_top = 30, N_at = 180, c24 = 0.5, c25 = 1.2)
+calculate_h_dom(h_top = 30, N_at = 80, c24 = 0.5, c25 = 1.2)
 
 }

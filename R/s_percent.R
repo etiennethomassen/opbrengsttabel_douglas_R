@@ -40,6 +40,7 @@ calculate_s_percent <- function(h_top, N_at) {
 
 
 #' Calculate S% based on time and the initial thinning grade
+#' Formula 74, p87
 #'
 #' Computes the S% depending on the stand age `t`, the initial thinning grade
 #' `Tgr0`, and a coefficient `c19`. The function implements
@@ -59,7 +60,7 @@ calculate_s_percent <- function(h_top, N_at) {
 #' calculate_S_percent(t = c(30, 55, 80), Tgr0 = 1.1, c19 = 0.02)
 #'
 #' @export
-calculate_s_percent_ <- function(t, tgr_0, c19) {
+calculate_tgr <- function(t, tgr_0, c19) {
   # Ensure t is numeric
   if (!is.numeric(t)) stop("t must be numeric")
 

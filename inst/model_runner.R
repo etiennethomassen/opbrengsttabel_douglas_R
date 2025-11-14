@@ -35,20 +35,32 @@ im_v <- 0
 
 #print(param$c1)
 t7 <- with(param, calculate_t7(S_i, c1, c2, c3))
+cat("t7\t", t7, "\n")
+
+# TODO CHECK of nodig
+# initialize variable.
+tgrnew <-0
 
 for (t in 1:(t_max + 1)) {
 
   # misschien moet ik s_percent_current en S-Percent_goal ofzo gaan gebruiken?
-  s_percent <- with(param, calculate_s_percent_(t, tgr_0, c19))
+  #s_percent <- with(param, calculate_s_percent_(t, tgr_0, c19))
+  s_percent <- with(param, calculate_tgr(t, tgr_0, c19))
   h1 <- with(param, calculate_h_top(t, S_i, c1, c2, c3, c4))
   h2 <- with(param, calculate_h_top(t+1, S_i, c1, c2, c3, c4))
   h_top <- h1
 
+  #if (tgrnew <= const[54]) {                 # const[54] = dgrmin
+  #  tgrcor <- 1.0
+  #} else {
+  #  tgrcor <- 1.0 - const[6] * (tgrnew - const[54])^const[7]
+  #}
+
+
   n_bt <- if (t > 1) n_at else N_0
 
-
-  # Cycle h_top < 7 ------------------------------------------------------------
-  if (h_top <= 7) {
+  # Cycle h_top < 7, if t is smaller then t7, then h_top below 7 ---------------
+  if (t < floor(t7)) {
 
     n_at <- n_bt
     d_bt <- with(param, calculate_d_bt(h_top=h_top, N_0, c11, c12, c13, c14))
@@ -56,16 +68,17 @@ for (t in 1:(t_max + 1)) {
     g_i <- g_bt - g_at
     g_at <- g_bt
 
-  # Cycle h_top > 7 ------------------------------------------------------------
-  } else if (h_top > 7) {
+  # TODO CHECK moet misschien net FLOOR zijn
+  # Cycle h_top passes 7 in thuis year ------------- ----------------------------
+  } else if (t == floor(t7)) {
     n_at <- n_bt
-    ic_g <- with(param, calculate_ic_g(h_top_t1=h1, h_top_t2=h2, dt=1, tgr_0=tgr_0, x80=1, x_HD=0, c=param))
+    ic_g <- with(param, calculate_ic_g_t7(t=t, h_top_t1=h1, h_top_t2=h2, tgr_0, c=param))
 
 
   # h_top > 7, thinning possible -----------------------------------------------
   } else {
-
     n_at <- n_bt
+    ic_g <- with(param, calculate_ic_g(h_top_t1=h1, h_top_t2=h2, dt=1, tgr_0=tgr_0, x80=1, x_HD=0, c=param))
   }
 
   h_dom <- with(param, calculate_h_dom(h_top=h_top, N_at=n_at, c24, c25))

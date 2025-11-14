@@ -29,6 +29,57 @@ calculate_g <- function(N, d) {
 }
 
 
+#' Calculate basal area increment for the year after passing t7
+#'
+#' Formula from FORTRAN programma
+#'
+#' @param N Number of trees per hectare (numeric scalar or vector)
+#' @param d Diameter at breast height (cm) (numeric scalar or vector)
+#'
+#' @return Basal area in square meters per hectare (numeric)
+#'
+#' @examples
+#' calculate_basal_area(N = 500, d = 30)
+#' calculate_basal_area(N = c(500, 600), d = c(25, 30))
+#'
+#' @export
+calculate_ic_g_t7 <- function(t, h_top_t1, h_top_t2, tgr_0, c) {
+
+  with(c, {
+  cf80 = c52
+  hmin1 = c53
+
+  # Adjusted TGR based on thinning
+  x_HD=0
+  tgr_adj <- tgr_0 + c56 * x_HD
+  # TODO duplicate met formule hieronder
+  cor_tgr <- if (h_top_t1 <= c55) {
+    1
+  } else if (tgr_adj <= c54) {
+    1
+  } else {
+    1 - c6 * (tgr_adj - c54)^c7
+  }
+
+  hmadj = (hmin1 - h_top_t1)
+  if (hmadj <= 0) hmadj <- 0.0
+  c8 = c8 + c9 * hmadj
+
+  t2 = t+1
+  delta_t7 = t2 - t7
+
+  termh = ((h_top_t2-1.3) ** c8-(7-1.3) ** c8) / delta_t7
+  deltaG = delta_t7 * cf80 * cor_tgr * (c10+c5 * termh)
+  iG=deltaG
+
+  # TODO TERM H veel te hoog
+  cat("t ", t, " term_h =", termh, "\n")
+
+  return(iG)
+  })
+}
+
+
 #' Calculate basal area increment (i_G) with updated cor_tgr
 #' Formula 71 p81
 #'
@@ -41,7 +92,7 @@ calculate_g <- function(N, d) {
 #' @param dt Time interval (in years)
 #' @param tgr0 Tree growth ratio (numeric)
 #' @param x_HD Thinning indicator: 1 = thinning from above, 0 otherwise
-#' @param year Year of measurement (numeric)
+#' @param x80 Indicator to identify if projection is for before(0) or after 1980(1)
 #' @param c Named list of model parameters:
 #'   c5, c6, c7, c8, c9, c10, c51, c52, c53, c54, c55, c56, c57
 #'
@@ -49,6 +100,9 @@ calculate_g <- function(N, d) {
 #'
 #' @export
 calculate_ic_g <- function(h_top_t1, h_top_t2, dt, tgr_0, x80, x_HD, c) {
+
+  #cat("htop\t", h_top_t1, "(calculate_ic_g) \n")
+
   if (h_top_t1 <= 7 || h_top_t2 <= 7) stop("This function is only valid for h_top > 7.")
   if (!x_HD %in% c(0, 1)) stop("x_HD must be 0 or 1.")
   if (dt <= 0) stop("dt must be positive.")
@@ -64,6 +118,7 @@ calculate_ic_g <- function(h_top_t1, h_top_t2, dt, tgr_0, x80, x_HD, c) {
       c8 + c9 * sqrt(c53 - h_top_t1)
     }
 
+    # TODO check of hier op juiste plek of dat dit dubbelt
     # Updated cor_tgr logic (new definition)
     cor_tgr <- if (h_top_t1 <= c55) {
       1
