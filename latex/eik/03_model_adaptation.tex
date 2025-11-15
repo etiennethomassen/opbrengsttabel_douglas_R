@@ -1,0 +1,25 @@
+% 1. Introduction
+\chapter{Yield model reconstruction}
+
+Using the report by Jansen the model has been rebuilt as an R programme. Some of the descriptions in the report were ambiguous, and an effort has been made to construct the model in such a way that the results mirror the resulting tables of the report.
+
+For the calculation of the $D_g$ formula 10 requires $d_7$. The formula given calculates this using the parameters $c_6$ and $c_7$. Beforehand the report also states that two constants have been found for $d_7$ namely 7.15 for treatments that start with $N_0$ of 5000 and 8.51 for an $N_0$ of 3000. These are the values that have been used to set the $d_7$ in the published yield tables.
+
+The basal area increment is usually calculated using formula 33. This formula requires $cor_{tgr}$ as an input which needs an $S\%$ in it's calculation through formula 15. This parameter is calculated using formula 17, but this is only suited when $h_{top}$ exceeds 7 meters. As cor S percent is 1 if S percent is smaller then c10 I assume it is 1
+
+For the calculation of the volume of a stand formula 27 is used. The formula includes t0, which is defined as t0=t-t1.30, in which t1.30 is likely the age at which the stand reaches a $h_{top}$ of 1.30 meters. However, with the eventual parameters t0 is multiplied by 0 from c43. 
+The report also states that formula 27 is not suited for the calculation of stand volume when $h_{top}$ is lower than 7, and that formula 26 needs to be used in that case (see page 30, below formula 28). In practise formula 27 has been used and is also used in the R script. 
+
+On page 32 Jansen et al define the formula for the calculation of the stem number N with using the dominant height, but the N_{at} is actually calculated using the top height a s the height parameter
+
+
+\chapter{Questions}
+Icg is independent of the current basal area. So with a low basal area a high increment is very possible.
+
+\chapter{Model adaptation}
+
+
+
+\section{FCT Development}
+
+\section{Combining}

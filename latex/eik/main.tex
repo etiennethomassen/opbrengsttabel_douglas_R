@@ -1,0 +1,104 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{float}
+\usepackage[nottoc, notlot, notlof]{tocbibind}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{color}
+\usepackage{soul}
+\usepackage[style=authoryear,sorting=ynt, date=year]{biblatex}
+\usepackage{hyperref} % Works with biblatex to break URLs
+\addbibresource{bib/library.bib}
+
+% Break long DOIs and URLs
+\setcounter{biburllcpenalty}{7000} % Break URLs more easily
+\setcounter{biburlucpenalty}{8000} % Break URLs more easily
+\setcounter{biburlnumpenalty}{1000} % Allow breaks at numbers
+\setlength{\emergencystretch}{3em} % Adjust as necessary
+
+% Use smaller font for bibliography
+\renewcommand{\bibfont}{\small} % smaller font to solve \hbox issue of bibliography
+
+%\usepackage{natbib}
+%\bibliographystyle{agsm}
+%\usepackage{apacite}
+%\usepackage{biblatex}
+\usepackage{enumitem} % control lists margin
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{blindtext}
+
+
+%source for setup https://www.youtube.com/watch?v=FcVP3gGUtGI&list=PL1D4EAB31D3EBC449&index=10
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape Thinning}
+\fancyhead[R]{\slshape Etiënne Thomassen}
+\setlength{\headheight}{14pt}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\usepackage{parskip}
+
+%\parindent 0ex
+%\setlength{\parindent}{4em}
+%\setlength{\parskip}{1em}
+\renewcommand{\baselinestretch}{1.5}
+
+\title{QD in Yield Tables}
+\author{Etiënne Thomassen}
+\date{\today}
+
+\usepackage{titlesec}
+
+% Redefine chapter formatting to match article style: "2. Chapter Title"
+\titleformat{\chapter}[hang]
+  {\normalfont\LARGE\bfseries}  % Style: Large, bold
+  {\thechapter.}  % Number format: "2."
+  {1em}  % Spacing between number and title
+  {}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{1cm}
+%\Large{\textbf{lala}}\\
+%\Large{\textbf{lala}}\\
+\vfill
+\line(1,0){400}\\[1mm]
+\huge{\textbf{Growth and yield of Douglas Fir under QD management}}\\[3mm]
+\large{\textbf{an adaptation of the Dutch yield tables}}\\[1mm]
+\line(1,0){400}\\
+\vfill
+Etiënne Thomassen\\
+\today \\
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+%remove header and footer
+\thispagestyle{empty}
+\clearpage
+
+\setcounter{page}{1}
+
+\include{01_introduction}
+\include{02_model_description}
+\include{03_model_adaptation}
+
+\printbibliography
+
+\appendix
+\include{A1_model_flowchart}
+\include{A2_abbreviations}
+
+\end{document}

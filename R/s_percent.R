@@ -24,18 +24,18 @@
 #' calculate_s_percent(h_top = 25, N_at = 600)
 #'
 #' @export
-calculate_s_percent <- function(h_top, N_at) {
+calculate_s_percent <- function(h_top, n_at) {
   # Input validation
   if (!is.numeric(h_top) || any(h_top <= 0)) stop("h_top must be a positive numeric value.")
-  if (!is.numeric(N_at) || any(N_at <= 0)) stop("N_at must be a positive numeric value.")
+  if (!is.numeric(n_at) || any(n_at <= 0)) stop("N_at must be a positive numeric value.")
 
   # Constant derived from Hart formula approximation
   constant <- 10745.7
 
   # Calculate S%
-  S_percent <- constant / (h_top * sqrt(N_at))
+  s_percent <- constant / (h_top * sqrt(n_at))
 
-  return(S_percent)
+  return(s_percent)
 }
 
 
@@ -60,7 +60,7 @@ calculate_s_percent <- function(h_top, N_at) {
 #' calculate_S_percent(t = c(30, 55, 80), Tgr0 = 1.1, c19 = 0.02)
 #'
 #' @export
-calculate_tgr <- function(t, tgr_0, c19) {
+calculate_s_percent_goal <- function(t, tgr_0, c19) {
   # Ensure t is numeric
   if (!is.numeric(t)) stop("t must be numeric")
 

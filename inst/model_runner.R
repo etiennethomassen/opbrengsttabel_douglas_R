@@ -40,15 +40,18 @@ cat("t7\t", t7, "\n")
 # TODO CHECK of nodig
 # initialize variable.
 tgrnew <-0
+n_at <- N_0 # required for first pass calculation of s%
+thinning <- FALSE
 
 for (t in 1:(t_max + 1)) {
 
   # misschien moet ik s_percent_current en S-Percent_goal ofzo gaan gebruiken?
   #s_percent <- with(param, calculate_s_percent_(t, tgr_0, c19))
-  s_percent <- with(param, calculate_tgr(t, tgr_0, c19))
+  s_percent_goal <- with(param, calculate_s_percent_goal(t, tgr_0, c19))
   h1 <- with(param, calculate_h_top(t, S_i, c1, c2, c3, c4))
   h2 <- with(param, calculate_h_top(t+1, S_i, c1, c2, c3, c4))
   h_top <- h1
+  s_percent <- calculate_s_percent(h_top=h_top, n_at=n_at)
 
   #if (tgrnew <= const[54]) {                 # const[54] = dgrmin
   #  tgrcor <- 1.0
@@ -68,17 +71,41 @@ for (t in 1:(t_max + 1)) {
     g_i <- g_bt - g_at
     g_at <- g_bt
 
-  # TODO CHECK moet misschien net FLOOR zijn
-  # Cycle h_top passes 7 in thuis year ------------- ----------------------------
+  # Cycle h_top passes 7 in thuis year -----------------------------------------
   } else if (t == floor(t7)) {
-    n_at <- n_bt
+    n_bt <- n_at
+    g_bt <- g_at + g_i # Of last year
     ic_g <- with(param, calculate_ic_g_t7(t=t, h_top_t1=h1, h_top_t2=h2, tgr_0, c=param))
+    n_at <- n_bt
 
 
   # h_top > 7, thinning possible -----------------------------------------------
   } else {
-    n_at <- n_bt
+    n_bt <- n_at
+    g_bt <- g_at + g_i # Of last year
     ic_g <- with(param, calculate_ic_g(h_top_t1=h1, h_top_t2=h2, dt=1, tgr_0=tgr_0, x80=1, x_HD=0, c=param))
+    n_at <- n_bt
+
+    # If t is a multiple of 5, then thinning can happen
+    if (t %% 5 == 0) {
+      # value is a multiple of 5
+      n_at_calc <- calculate_n_at(s_percent=s_percent_goal, h_top=h_top)
+      if (n_at_calc < n_at){
+        # calculated n_at can be larger then n_at. Then keep n_at
+        thinning = TRUE
+        n_at <- n_at_calc
+        n_th <- n_bt - n_at
+      
+
+
+      }
+    } else {
+      # not thinning -> no thinning year or n_at_calc > n_at
+      thinning <- FALSE
+      n_at <- n_bt
+      n_th <- NA 
+      
+    }
   }
 
   h_dom <- with(param, calculate_h_dom(h_top=h_top, N_at=n_at, c24, c25))
@@ -93,6 +120,7 @@ for (t in 1:(t_max + 1)) {
     n_bt = n_bt,
     d_bt = d_bt,
     g_bt = g_bt,
+    n_th = if (thinning) n_th else NA,
     n_at = n_at,
     g_at = g_at,
     hg_at = hg_at,
@@ -103,7 +131,6 @@ for (t in 1:(t_max + 1)) {
   # Append the row
   yield_table <- bind_rows(yield_table, new_row)
 }
-
 
 # Create output dir and write
 out_path <- file.path("out", "yield_output.xlsx")
