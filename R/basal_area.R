@@ -47,7 +47,6 @@ calculate_ic_g_t7 <- function(t, h_top_t1, h_top_t2, tgr_0, c) {
 
   with(c, {
   cf80 = c52
-  hmin1 = c53
 
   # Adjusted TGR based on thinning
   x_HD=0
@@ -61,19 +60,22 @@ calculate_ic_g_t7 <- function(t, h_top_t1, h_top_t2, tgr_0, c) {
     1 - c6 * (tgr_adj - c54)^c7
   }
 
-  hmadj = (hmin1 - h_top_t1)
-  if (hmadj <= 0) hmadj <- 0.0
-  c8 = c8 + c9 * hmadj
-
   t2 = t+1
   delta_t7 = t2 - t7
 
-  termh = ((h_top_t2-1.3) ** c8-(7-1.3) ** c8) / delta_t7
+  b <- if (h_top_t1 > c53) {
+      c8
+    } else {
+      c8 + c9 * sqrt(c53 - h_top_t1)
+    }
+  # cat("b=" , b, " c8=", c8, " c9=",c9, " c53=", c53, " h_top_t1=", h_top_t1, "\n")
+
+  termh = ((h_top_t2-1.3)^b -(7-1.3)^b) / delta_t7
   deltaG = delta_t7 * cf80 * cor_tgr * (c10+c5 * termh)
   iG=deltaG
 
-  # TODO TERM H veel te hoog
-  cat("t ", t, " term_h =", termh, "\n")
+  # cat("t ", t, " term_h =", termh, "\n")
+  # cat("iG ", iG, "\n")
 
   return(iG)
   })

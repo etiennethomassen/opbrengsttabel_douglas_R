@@ -4,7 +4,7 @@
 \alias{calculate_ic_g_t7}
 \title{Calculate basal area increment for the year after passing t7}
 \usage{
-calculate_ic_g_t7(t, h_top_t1, h_top_t2, tgr_cor, c5, c8, c9, c10, c52, c53)
+calculate_ic_g_t7(t, h_top_t1, h_top_t2, tgr_0, c)
 }
 \arguments{
 \item{N}{Number of trees per hectare (numeric scalar or vector)}
